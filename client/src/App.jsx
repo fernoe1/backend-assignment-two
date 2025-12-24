@@ -3,6 +3,7 @@ import { Button, Divider } from "antd";
 import UserSection from "./components/UserSection";
 import CountrySection from "./components/CountrySection";
 import NewsSection from "./components/NewsSection";
+import ExchangeSection from "./components/ExchangeSection";
 
 function App() {
   const [data, setData] = useState(null);
@@ -41,6 +42,8 @@ function App() {
           <UserSection user={data.user} />
           <Divider>Country</Divider>
           <CountrySection country={data.country} />
+          <Divider>Exchange</Divider>
+          <ExchangeSection exchange={data.exchange} />
           <Divider>News</Divider>
           <NewsSection articles={data.articles} />
         </>
