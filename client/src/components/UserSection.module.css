@@ -1,0 +1,11 @@
+.userSection {
+    width: 400px;
+    padding: 1rem;
+}
+
+.userSectionImg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

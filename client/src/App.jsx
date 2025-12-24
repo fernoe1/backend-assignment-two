@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Button, Divider } from "antd";
+import UserSection from "./components/UserSection";
+import CountrySection from "./components/CountrySection";
+import NewsSection from "./components/NewsSection";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const getData = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:3000/random-user");
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div
+        style={{
+          margin: "20px auto", 
+          textAlign: "center", 
+        }}
+      >
+        <Button type="primary" onClick={getData} loading={loading}>
+          {loading ? "Loading..." : "Load Data"}
+        </Button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {data && (
+        <>
+          <Divider>User</Divider>
+          <UserSection user={data.user} />
+          <Divider>Country</Divider>
+          <CountrySection country={data.country} />
+          <Divider>News</Divider>
+          <NewsSection articles={data.articles} />
+        </>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
